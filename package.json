@@ -1,6 +1,6 @@
 {
   "name": "utils-storagecleaner",
-  "version": "0.0.1",
+  "version": "0.0.1-dev.0",
   "description": "Tool for automatic maintenance of file storage (cleanup & promotion)",
   "bin": {
     "storage-tool": "./dist/cli.js"
