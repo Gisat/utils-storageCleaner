@@ -1,0 +1,20 @@
+/S3_BUCKET_ROOT             // bucket root directory
+    /WorldCereal_GST-10     // project root directory
+        metadata.json
+        /app-esaWorldCereal // project data directory
+            metadata.json (merge with metadata.json in ../)
+            /dev
+                /vectors
+                    -prague.20241227.json
+                    -prague.json
+                    -berlin.json
+                    -london.json
+                /rasters
+                    -prague.20241227.tif
+                    -prague.tif
+                    -berlin.tif
+                    -london.tif
+            /prod
+                /v1
+                    /vectors
+        /project            // another project data directory

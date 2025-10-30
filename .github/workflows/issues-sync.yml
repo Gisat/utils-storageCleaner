@@ -1,0 +1,26 @@
+name: Sync GitHub Issues to Notion
+
+on:
+  schedule:
+    - cron: '14 */8 * * *' # Every 8 hours at minute 14
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Generate GitHub App Token
+      id: get_token
+      uses: actions/create-github-app-token@v2
+      with:
+        app-id: ${{ secrets.NOTION_SYNC_APP_ID }}
+        private-key: ${{ secrets.NOTION_SYNC_APP_KEY }}
+
+    - name: Notion Sync Action
+      uses: Gisat/ptr-github-issues-for-notion@wip
+      with:
+        github-token: ${{ steps.get_token.outputs.token }}
+        notion-token: ${{ secrets.NOTION_TOKEN }}
+        notion-task-ds: ${{ secrets.NOTION_TASK_DS }}
+        notion-project-ds: ${{ secrets.NOTION_PROJECT_DS }}
+        notion-users-ds: ${{ secrets.NOTION_USERS_DS }}
