@@ -1,4 +1,4 @@
-name: docker/build-push-deploy
+name: docker/build-push
 
 on:
   push:
@@ -38,28 +38,29 @@ jobs:
     steps:
       - 
         name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
       - 
         name: "Get docker image metadata"
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5.6.1
         with:
           images: gisat/${{ needs.check.outputs.DOCKER_REPO }}
           tags: |
-            type=raw,value=latest,enable=${{ !contains(github.ref, '-dev.') }}
+            type=raw,value=latest,enable=${{ !contains(github.ref, '-dev.') && !contains(github.ref, '-rc.') }}
             type=raw,value=latest-dev,enable=${{ contains(github.ref, '-dev.') }}
+            type=raw,value=latest-rc,enable=${{ contains(github.ref, '-rc.') }}
             type=ref,event=tag
           flavor: |
             latest=false
       - 
         name: "Login to DockerHub"
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3.3.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - 
         name: "Build and push"
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6.10.0
         if: ${{ success() }}
         with:
           context: .
@@ -67,12 +68,3 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [test, check, build]
-    steps:
-      -
-        name: "Deploy application on remote server"
-        if: ${{ contains(github.ref, '-dev.') }}
-        run: |
-          echo "Nowhere to deploy..."

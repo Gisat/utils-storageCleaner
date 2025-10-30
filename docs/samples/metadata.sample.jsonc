@@ -1,0 +1,11 @@
+/* filepath: docs/samples/metadata.sample.jsonc */
+{
+  // Example metadata.json (JSONC form with comments for reference)
+  // Remove the comment lines if you need strict JSON.
+  "expiration": "2025-12-31",
+  "projectManager": "pm@example.com",
+  "productOwner": "owner@example.com",
+  "archive": false,
+  "description": "Data assets for geospatial tiling experiment (temporary dev dataset).",
+  "notes": "Additional arbitrary fields are allowed but ignored by the cleaner."
+}
